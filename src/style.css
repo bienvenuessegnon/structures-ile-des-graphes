@@ -110,6 +110,7 @@ button { font: inherit; color: inherit; }
 .sentier { fill: none; stroke: var(--ligne); stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; }
 .sentier.parcouru { stroke: var(--accent); stroke-dasharray: none; opacity: 0.55; }
 .etape { cursor: pointer; outline: none; }
+.etape .zone-tactile { fill: transparent; }
 .etape .anneau { fill: none; stroke: transparent; stroke-width: 1.5; transition: stroke 0.3s; }
 .etape .pastille-etape { fill: var(--surface-2); stroke: var(--ligne); stroke-width: 1.5; transition: fill 0.2s; }
 .etape .numero { fill: var(--texte); font-weight: 700; font-size: 17px; }

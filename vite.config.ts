@@ -6,7 +6,7 @@ function horsLigne(): Plugin {
     name: 'hors-ligne',
     apply: 'build',
     generateBundle(_, bundle) {
-      const fichiers = ['./', './index.html', './icone.svg', './manifest.webmanifest', ...Object.keys(bundle).map((f) => './' + f)];
+      const fichiers = ['./', './index.html', './icone.svg', './manifest.json', ...Object.keys(bundle).map((f) => './' + f)];
       const version = Date.now().toString(36);
       const source = `const CACHE = 'structures-${version}';
 const FICHIERS = ${JSON.stringify(fichiers)};

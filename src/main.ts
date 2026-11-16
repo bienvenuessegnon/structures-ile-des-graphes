@@ -123,6 +123,9 @@ function ecranCarte() {
       tabindex: ouvert ? 0 : -1,
       'aria-label': `Niveau ${i + 1}, ${n.titre}${ouvert ? '' : ', verrouillé'}`,
     });
+    const droiteZone = i % 2 === 0;
+    // zone tactile couvrant la pastille et le titre
+    g.append(svg('rect', { class: 'zone-tactile', x: droiteZone ? -34 : -190, y: -34, width: 224, height: 78, rx: 14 }));
     g.append(svg('circle', { class: 'anneau', r: 30 }), svg('circle', { class: 'pastille-etape', r: 24 }));
     if (ouvert) {
       const t = svg('text', { class: 'numero', 'text-anchor': 'middle', 'dominant-baseline': 'central' });
