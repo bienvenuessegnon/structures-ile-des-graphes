@@ -1,17 +1,9 @@
 import type { Arete, AretePonderee } from './graphe';
+import type { FicheNiveau } from './partie';
 
 export type Point = [number, number];
 
-interface Commun {
-  id: string;
-  titre: string;
-  notion: string;
-  enonce: string;
-  explication: string[];
-  /** Libellé de ce que l'on compte pour les étoiles. */
-  libelleCoups: string;
-  /** Seuils : coups ≤ s[0] → 3 étoiles, coups ≤ s[1] → 2 étoiles, sinon 1. */
-  seuils: [number, number];
+interface Commun extends FicheNiveau {
   positions: Point[];
   etiquettes?: string[];
 }
@@ -212,7 +204,7 @@ export const NIVEAUX: Niveau[] = [
   },
 ];
 
-export function etoilesPour(n: Niveau, coups: number): number {
+export function etoilesPour(n: FicheNiveau, coups: number): number {
   if (coups <= n.seuils[0]) return 3;
   if (coups <= n.seuils[1]) return 2;
   return 1;

@@ -10,6 +10,7 @@
   --ambre: #e6b35a;
   --corail: #e08a72;
   --alerte: #e7896f;
+  --bleu: #8eaee3;
   --rayon: 14px;
   --police: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --courbe: cubic-bezier(0.22, 0.8, 0.26, 1);
@@ -216,6 +217,7 @@ button { font: inherit; color: inherit; }
 .pastille.teinte-0, .puce.teinte-0 { background: var(--accent); }
 .pastille.teinte-1, .puce.teinte-1 { background: var(--ambre); }
 .pastille.teinte-2, .puce.teinte-2 { background: var(--corail); }
+.pastille.teinte-3, .puce.teinte-3 { background: var(--bleu); }
 .legende-camps { display: flex; align-items: center; gap: 8px; color: var(--doux); font-size: 13px; }
 .puce { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-left: 10px; }
 
@@ -263,6 +265,249 @@ button { font: inherit; color: inherit; }
 .bascule:disabled { opacity: 0.4; cursor: default; }
 .bac.niveau { height: auto; min-height: 100dvh; }
 .bac .badge.visible { opacity: 0.9; }
+
+
+/* Archipel */
+.liste-iles { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.ile-carte {
+  display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; padding: 14px;
+  background: var(--surface); border: 1px solid var(--ligne); border-radius: var(--rayon); cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.ile-carte:active { transform: scale(0.99); }
+.ile-carte:hover { border-color: #3a4652; }
+.embleme { width: 52px; height: 52px; flex: none; display: grid; place-items: center; border-radius: 14px; background: #121a1f; color: var(--accent); border: 1px solid var(--ligne); }
+.ile-algebre .embleme { color: var(--ambre); }
+.ile-topologie .embleme { color: var(--corail); }
+.ile-tribus .embleme { color: var(--bleu); }
+.ile-vectoriel .embleme { color: var(--accent-fort); }
+.ile-texte { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.ile-texte .surtitre { font-size: 10.5px; }
+.ile-texte strong { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.ile-texte .notions { color: var(--doux); font-size: 12.5px; }
+.jauge { display: block; height: 3px; margin-top: 7px; border-radius: 2px; background: var(--ligne); position: relative; overflow: hidden; }
+.jauge::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--avance); background: var(--accent); border-radius: 2px; }
+.ile-etoiles { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--doux); font-variant-numeric: tabular-nums; align-self: flex-start; }
+.archipel .enonce { margin: 0 4px 12px; text-align: left; min-height: 0; }
+.suite-ile > .icone:first-child { color: var(--doux); }
+
+/* Plateaux libres : éléments communs */
+.teinte-0 { --t: var(--accent); }
+.teinte-1 { --t: var(--ambre); }
+.teinte-2 { --t: var(--corail); }
+.teinte-3 { --t: var(--bleu); }
+.plateau text { fill: var(--texte); font-family: var(--police); }
+.plateau .note { fill: var(--doux); font-size: 11.5px; letter-spacing: 0.02em; }
+.plateau .note.forte { fill: var(--accent); font-size: 16px; font-weight: 700; }
+.plateau .num { font-size: 14px; font-weight: 700; pointer-events: none; }
+.plateau [data-cle] { cursor: pointer; }
+.zone { fill: transparent; }
+.figure .corps { fill: #1a2229; stroke: #6b7885; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.figure .coin { fill: var(--t); }
+.figure .mat { stroke: var(--texte); stroke-width: 1.8; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+.figure .fanion { fill: var(--ambre); }
+.figure.grande .corps { fill: #18212a; stroke: var(--doux); stroke-width: 2.4; }
+.pointe { fill: var(--accent); }
+
+/* Algèbre */
+.symetries .axe { stroke: var(--ligne); stroke-width: 1.5; stroke-dasharray: 4 6; }
+.arc-rotation { fill: none; stroke: var(--accent); stroke-width: 2; opacity: 0.7; }
+.anneau-cible { fill: none; stroke: var(--t); stroke-width: 2.5; stroke-dasharray: 5 5; opacity: 0.9; }
+.cadran { fill: none; stroke: var(--ligne); stroke-width: 1.5; }
+.heure .disque { fill: var(--surface-2); stroke: #6b7885; stroke-width: 2; transition: fill 0.2s, stroke 0.2s; }
+.heure.allumee .disque { fill: #1d3530; stroke: var(--accent); }
+.heure.saut .disque { stroke: var(--texte); stroke-width: 2.6; }
+.heure.generateur .disque { fill: var(--accent); stroke: var(--accent); }
+.heure.generateur .num { fill: #0b1512; }
+.corde { stroke: var(--accent); stroke-width: 2; opacity: 0.7; stroke-linecap: round; }
+.horloge .bilan { font-size: 22px; font-weight: 700; fill: var(--accent); }
+.operation { font-size: 22px; fill: var(--doux) !important; }
+.entete-table rect { fill: #121a1f; stroke: var(--ligne); }
+.degres { font-size: 10px; fill: var(--doux) !important; }
+.case rect { fill: var(--surface); stroke: var(--ligne); stroke-dasharray: 3 4; transition: stroke 0.2s, fill 0.2s; }
+.case[data-valeur]:not([data-valeur='-1']) rect { stroke-dasharray: none; }
+.case.donnee rect { fill: #121a1f; stroke: transparent; }
+.case.donnee { cursor: default; }
+.case.conflit rect { stroke: var(--alerte); stroke-width: 2; stroke-dasharray: none; }
+.glyphe-bouton { display: grid; place-items: center; background: var(--surface-2) !important; border: 1px solid var(--ligne) !important; width: 52px; height: 52px; }
+.glyphe .corps { fill: #1a2229; }
+.tuile-groupe rect { fill: var(--surface); stroke: var(--ligne); stroke-width: 1.2; transition: fill 0.2s, stroke 0.2s; }
+.tuile-groupe.choisie rect { fill: #15231f; stroke: var(--accent); stroke-width: 2; }
+.tuile-groupe.imposee rect { stroke-dasharray: none; }
+.tuile-groupe.imposee .nom-sym { fill: var(--accent); }
+.tuile-groupe.manquante rect { stroke: var(--alerte); stroke-dasharray: 5 4; stroke-width: 2; }
+.nom-sym { font-size: 15px; font-weight: 600; }
+.axe-mini { stroke: var(--doux); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.case-loi rect { fill: var(--surface); stroke: var(--ligne); transition: fill 0.25s, stroke 0.25s; }
+.case-loi.gauche rect { fill: #173029; stroke: var(--accent); }
+.case-loi.droite rect { fill: #2f2817; stroke: var(--ambre); }
+.case-loi.gauche.droite rect { fill: #24301f; }
+.entete-num { font-size: 14px; font-weight: 700; fill: var(--doux) !important; }
+.calcul-titre { font-size: 13px; fill: var(--doux) !important; }
+.calcul { font-size: 16px; font-weight: 600; }
+.calcul.gauche { fill: var(--accent) !important; }
+.calcul.droite { fill: var(--ambre) !important; }
+.verdict { font-size: 14px; fill: var(--doux) !important; }
+.verdict.faux { fill: var(--alerte) !important; font-weight: 700; font-size: 17px; }
+.noeud-groupe .disque { fill: var(--surface-2); stroke: #6b7885; stroke-width: 2; transition: stroke 0.2s; }
+.noeud-groupe.choisi .disque { stroke: var(--texte); stroke-width: 3; }
+.noeud-groupe .nom-sym { font-size: 13px; fill: var(--doux); }
+.lien-r { stroke: var(--accent); stroke-width: 2.6; stroke-linecap: round; }
+.lien-s { stroke: var(--ambre); stroke-width: 2.6; stroke-dasharray: 7 5; stroke-linecap: round; }
+.apercu-lien { stroke: var(--doux); stroke-width: 2; stroke-dasharray: 3 5; opacity: 0; pointer-events: none; }
+.apercu-lien.visible { opacity: 0.8; }
+.choix-gen {
+  flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--ligne); background: var(--surface); font-weight: 600; cursor: pointer;
+}
+.choix-gen.gen-r[aria-checked='true'] { border-color: var(--accent); color: var(--accent); background: #15231f; }
+.choix-gen.gen-s[aria-checked='true'] { border-color: var(--ambre); color: var(--ambre); background: #2a2417; }
+.palette.generateurs { width: 100%; gap: 10px; }
+
+/* Réglages numériques */
+.controles.pile { flex-direction: column; align-items: stretch; }
+.reglages { display: flex; gap: 8px; justify-content: center; }
+.selecteur {
+  flex: 1; display: grid; grid-template-columns: 1fr auto 1fr; grid-template-rows: auto auto; align-items: center; justify-items: center;
+  background: var(--surface); border: 1px solid var(--ligne); border-radius: 12px; padding: 6px 4px 4px;
+}
+.nom-selecteur { grid-column: 1 / -1; font-size: 12px; color: var(--doux); font-weight: 600; }
+.selecteur.teinte-u .nom-selecteur { color: var(--accent); }
+.selecteur.teinte-v .nom-selecteur { color: var(--ambre); }
+.selecteur.teinte-w .nom-selecteur { color: var(--corail); }
+.pas-bouton { width: 38px; height: 38px; border: 0; background: transparent; font-size: 20px; cursor: pointer; border-radius: 10px; }
+.pas-bouton:active { background: var(--surface-2); }
+.pas-bouton:disabled { opacity: 0.3; cursor: default; }
+.selecteur .valeur { font-size: 18px; font-weight: 700; min-width: 28px; text-align: center; font-variant-numeric: tabular-nums; }
+
+/* Familles de parties */
+.tuile .cadre { fill: var(--surface); stroke: var(--ligne); stroke-width: 1.2; transition: fill 0.2s, stroke 0.2s; }
+.tuile .ensemble { fill: none; stroke: #2f3943; stroke-width: 1; }
+.tuile .membre { fill: var(--texte); }
+.tuile .absent { fill: none; stroke: #4a5560; stroke-width: 1.2; }
+.tuile .nom-partie { font-size: 11px; fill: var(--doux); }
+.tuile.choisie .cadre { fill: #15231f; stroke: var(--accent); stroke-width: 1.8; }
+.tuile.choisie .membre { fill: var(--accent); }
+.tuile.choisie .nom-partie { fill: var(--texte); }
+.tuile.imposee .cadre { fill: #121a1f; stroke: #3c6b60; stroke-dasharray: none; }
+.tuile.impliquee .cadre { stroke: var(--ambre); stroke-width: 2.2; }
+.famille-tribu .tuile.choisie .cadre { fill: #161e2a; }
+
+/* Reliefs (espaces finis) */
+.lien-relief { stroke: #46525f; stroke-width: 2.4; stroke-linecap: round; transition: stroke 0.2s, opacity 0.2s; }
+.lien-relief.dedans { stroke: var(--accent); stroke-width: 3; }
+.lien-relief.coupe { opacity: 0.12; }
+.lien-relief.casse { stroke: var(--alerte); stroke-width: 3; stroke-dasharray: 6 5; }
+.point-relief .disque { fill: var(--surface-2); stroke: #6b7885; stroke-width: 2; transition: fill 0.2s, stroke 0.2s, opacity 0.2s; }
+.point-relief.haut .disque { fill: #26313b; stroke: var(--texte); }
+.point-relief .anneau-a { fill: none; stroke: transparent; stroke-width: 2; stroke-dasharray: 4 4; }
+.point-relief.dans-a .anneau-a { stroke: var(--ambre); }
+.point-relief.choisi .disque { fill: var(--accent); stroke: var(--accent); }
+.point-relief.choisi .num { fill: #0b1512; }
+.point-relief.requis .disque { stroke: var(--texte); stroke-width: 3; }
+.point-relief.retire { opacity: 0.18; }
+.point-relief.teinte-0 .disque, .point-relief.teinte-1 .disque, .point-relief.teinte-2 .disque, .point-relief.teinte-3 .disque { fill: var(--t); stroke: var(--t); }
+.point-relief[class*='teinte-'] .num { fill: #0b1512; }
+.continuite .point-relief.choisi .disque { fill: var(--surface-2); stroke: var(--texte); stroke-width: 3.2; }
+.continuite .point-relief.choisi .num { fill: var(--texte); }
+.fil { fill: none; stroke: var(--t); stroke-width: 1.8; opacity: 0.55; }
+.lettre polyline, .modele polyline { fill: none; stroke: var(--texte); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.lettre.grande polyline { stroke-width: 16; stroke: var(--accent-fort); }
+.modele polyline { stroke-width: 5; stroke: var(--doux); }
+.bac-lettres rect { fill: var(--surface); stroke: var(--ligne); transition: stroke 0.2s, fill 0.2s; }
+.bac-lettres.refus rect { stroke: var(--alerte); fill: #2a1a17; }
+.bac-lettres.accepte rect { stroke: var(--accent); fill: #15231f; }
+.compte-bac { font-size: 12px; font-weight: 700; fill: var(--accent) !important; letter-spacing: 0.08em; }
+.indices .bout { fill: var(--ambre); }
+.indices .noeud { fill: var(--corail); }
+
+/* Tribus */
+.face .de { fill: var(--surface-2); stroke: #6b7885; stroke-width: 2; transition: fill 0.2s, stroke 0.2s; }
+.face .pip { fill: var(--texte); }
+.face[class*='teinte-'] .de { fill: var(--t); stroke: var(--t); }
+.face[class*='teinte-'] .pip { fill: #0b1512; }
+.etiquette-evt rect { fill: var(--surface); stroke: var(--ligne); }
+.etiquette-evt text { font-size: 12px; font-weight: 600; }
+.etiquette-evt.hors text { fill: var(--doux); font-weight: 500; }
+.etiquette-evt.dans rect { stroke: var(--texte); }
+.bande { fill: var(--t); opacity: 0.07; stroke: var(--t); stroke-opacity: 0.4; transition: opacity 0.3s; }
+.bande.constante { opacity: 0.18; }
+.graduation { stroke: #1d242c; stroke-width: 1; }
+.barre { fill: var(--texte); opacity: 0.85; transition: y 0.08s, height 0.08s; }
+.barre.saisie { fill: var(--accent); opacity: 1; }
+.valeur-barre { font-size: 12px; font-weight: 700; }
+.omega { fill: #10161b; stroke: var(--ligne); }
+.disque-a { fill: var(--accent); fill-opacity: 0.07; stroke: var(--accent); stroke-width: 1.6; }
+.disque-b { fill: var(--ambre); fill-opacity: 0.07; stroke: var(--ambre); stroke-width: 1.6; }
+.nom-ensemble { font-size: 17px; font-weight: 700; fill: var(--doux) !important; }
+.grain { fill: var(--texte); }
+.grain.zone-1 { fill: var(--accent-fort); }
+.puce-contrainte rect { fill: var(--surface); stroke: var(--ligne); transition: stroke 0.2s; }
+.puce-contrainte.juste rect { stroke: var(--accent); fill: #15231f; }
+.puce-contrainte.trop rect { stroke: var(--alerte); }
+.nom-contrainte { font-size: 13px; font-weight: 600; fill: var(--doux) !important; }
+.valeur-contrainte { font-size: 16px; font-weight: 700; }
+.puce-contrainte.juste .valeur-contrainte { fill: var(--accent); }
+.outil-mode { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--ligne); background: var(--surface); font-weight: 600; cursor: pointer; }
+.outil-mode[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); background: #15231f; }
+.case-proba rect { fill: var(--surface); stroke: var(--ligne); transition: fill 0.2s, stroke 0.2s; }
+.case-proba.dans-a rect { stroke: var(--accent); stroke-width: 1.8; }
+.case-proba.dans-b rect { fill: #3a301a; }
+.case-proba.dans-b.dans-a rect { fill: #3a3a1f; }
+.marque-a { font-size: 11px; font-weight: 700; fill: var(--accent) !important; }
+.cle-proba { font-size: 14px; fill: var(--doux) !important; }
+.val-proba { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.barre-creuse { fill: none; stroke: var(--texte); stroke-width: 1.6; opacity: 0.8; }
+.eau { fill: var(--bleu); opacity: 0.28; transition: opacity 0.2s; }
+.eau.juste { fill: var(--accent); opacity: 0.32; }
+.poignee-eau line { stroke: var(--bleu); stroke-width: 2.4; }
+.poignee-eau .prise { fill: var(--bleu); }
+.poignee-eau.saisie line, .poignee-eau.saisie .prise { stroke: var(--texte); fill: var(--texte); }
+.bilan-eau { font-size: 12px; font-weight: 600; }
+.bilan-eau.doux { fill: var(--doux) !important; font-weight: 500; }
+.bilan-eau.juste { fill: var(--accent) !important; }
+
+/* Vectoriel */
+.repere .g { stroke: #19212a; stroke-width: 1; }
+.repere .axe { stroke: #34404b; stroke-width: 1.4; }
+.reseau { fill: #3b4752; }
+.fleche { stroke-width: 3; stroke-linecap: round; }
+.fleche.u { stroke: var(--accent); }
+.fleche.v { stroke: var(--ambre); }
+.fleche.w { stroke: var(--corail); }
+.fleche.x { stroke: var(--texte); }
+.fleche.mx { stroke: var(--bleu); }
+.fleche.fantome { opacity: 0.35; stroke-width: 2; }
+.pointe-u { fill: var(--accent); } .pointe-v { fill: var(--ambre); } .pointe-w { fill: var(--corail); }
+.pointe-x { fill: var(--texte); } .pointe-mx { fill: var(--bleu); } .pointe-neutre { fill: var(--doux); }
+.poignee .rond { fill: var(--fond); stroke-width: 3; }
+.poignee.u .rond { stroke: var(--accent); } .poignee.v .rond { stroke: var(--ambre); } .poignee.x .rond { stroke: var(--texte); }
+.poignee { cursor: grab; }
+.etiquette-vec { font-size: 14px; font-weight: 700; }
+.etiquette-vec.u { fill: var(--accent) !important; } .etiquette-vec.v { fill: var(--ambre) !important; }
+.etiquette-vec.w { fill: var(--corail) !important; } .etiquette-vec.mx { fill: var(--bleu) !important; }
+.etiquette-vec.cible { fill: var(--doux) !important; }
+.cible-vec { fill: none; stroke: var(--texte); stroke-width: 2; stroke-dasharray: 4 4; }
+.curseur-vec { fill: var(--texte); }
+.pave { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; }
+.pave .bouton { padding: 13px 0; font-size: 16px; }
+.bouton.teinte-u { background: #15231f; color: var(--accent); border: 1px solid #2c5248; }
+.bouton.teinte-v { background: #2a2417; color: var(--ambre); border: 1px solid #5a4a2a; }
+.grille-image { stroke: var(--accent); stroke-width: 1; opacity: 0.14; }
+.silhouette-vec { fill: var(--texte); opacity: 0.1; stroke: var(--doux); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.forme-vec { fill: var(--accent); fill-opacity: 0.22; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.lecture-matrice { display: flex; align-items: center; justify-content: center; gap: 4px; font-variant-numeric: tabular-nums; }
+.lecture-matrice .parenthese { font-size: 44px; font-weight: 300; color: var(--doux); line-height: 1; }
+.lecture-matrice .colonnes { display: flex; gap: 14px; }
+.lecture-matrice .colonnes > span { display: flex; flex-direction: column; align-items: center; font-size: 17px; }
+.col-u { color: var(--accent); } .col-v { color: var(--ambre); }
+.aire { stroke-width: 1.5; transition: fill 0.2s; }
+.aire.positive { fill: var(--accent); fill-opacity: 0.2; stroke: var(--accent); }
+.aire.negative { fill: var(--corail); fill-opacity: 0.22; stroke: var(--corail); }
+.aire.nulle { stroke: var(--doux); fill: none; }
+.valeur-aire { font-size: 18px; font-weight: 700; }
+.droite-image { stroke: var(--bleu); stroke-width: 2; stroke-dasharray: 6 6; opacity: 0.6; }
+.droite-propre { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 6 6; opacity: 0.7; }
+.lambda { font-size: 13px; font-weight: 700; fill: var(--accent) !important; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

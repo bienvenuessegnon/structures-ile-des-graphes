@@ -1,5 +1,5 @@
 {
-  "name": "Structures · Île des Graphes",
+  "name": "Structures",
   "short_name": "Structures",
   "lang": "fr",
   "start_url": "./",
@@ -8,5 +8,12 @@
   "orientation": "portrait",
   "background_color": "#0d1014",
   "theme_color": "#0d1014",
-  "icons": [{ "src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [
+    {
+      "src": "icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }

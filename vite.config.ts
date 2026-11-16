@@ -8,7 +8,7 @@ function horsLigne(): Plugin {
     generateBundle(_, bundle) {
       const fichiers = ['./', './index.html', './icone.svg', './manifest.json', ...Object.keys(bundle).map((f) => './' + f)];
       const version = Date.now().toString(36);
-      const source = `const CACHE = 'structures-${version}';
+      const source = `const CACHE = 'structures-2-${version}';
 const FICHIERS = ${JSON.stringify(fichiers)};
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FICHIERS)).then(() => self.skipWaiting()));

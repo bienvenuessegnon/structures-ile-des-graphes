@@ -1,7 +1,7 @@
 {
   "name": "structures",
-  "version": "0.1.0",
-  "description": "Structures, Île des Graphes : prototype de jeu éducatif",
+  "version": "0.2.0",
+  "description": "Structures : un jeu éducatif de mathématiques en cinq îles",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -1,80 +1,19 @@
 import { el, svg } from './dom';
 import * as G from './graphe';
 import type { Niveau, Point } from './niveaux';
+import { attendre, mouvementReduit, Partie, type ConstructeurPartie } from './partie';
 import { Scene } from './scene';
 
-export interface Hote {
-  statut(texte: string, ton?: 'neutre' | 'alerte' | 'succes'): void;
-  coups(n: number): void;
-  legende(texte: string | null): void;
-  reussite(coups: number): void;
-  readonly controles: HTMLElement;
-}
-
-const attendre = (ms: number) => new Promise((r) => setTimeout(r, ms));
-const mouvementReduit = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-export abstract class Partie {
-  scene!: Scene;
-  coups = 0;
-  fini = false;
-  protected appuye = false;
-
-  constructor(protected niveau: Niveau, protected hote: Hote) {}
-
-  abstract monter(): void;
-  abstract recommencer(): void;
-  protected appui(_p: Point): void {}
-  protected glisse(_p: Point): void {}
-  protected relache(_p: Point): void {}
-  /** Animation jouée après la réussite, avant la fiche. */
-  async apresReussite(): Promise<void> {}
-
-  brancher() {
-    const r = this.scene.racine;
-    r.addEventListener('pointerdown', (e) => {
-      if (this.fini) return;
-      e.preventDefault();
-      this.appuye = true;
-      r.setPointerCapture(e.pointerId);
-      this.appui(this.scene.point(e));
-    });
-    r.addEventListener('pointermove', (e) => {
-      if (!this.appuye || this.fini) return;
-      this.glisse(this.scene.point(e));
-    });
-    const fin = (e: PointerEvent) => {
-      if (!this.appuye) return;
-      this.appuye = false;
-      if (!this.fini) this.relache(this.scene.point(e));
-    };
-    r.addEventListener('pointerup', fin);
-    r.addEventListener('pointercancel', fin);
-  }
-
-  protected compter(n = 1) {
-    this.coups += n;
-    this.hote.coups(this.coups);
-  }
-
-  protected gagner() {
-    if (this.fini) return;
-    this.fini = true;
-    this.scene.racine.classList.add('resolu');
-    this.hote.reussite(this.coups);
-  }
-
-  protected montrerDegres() {
-    const d = G.degres(this.scene.pos.length, this.scene.aretes);
-    d.forEach((x, i) => {
-      this.scene.badge(i, String(x));
-      this.scene.classeSommet(i, 'impair', x % 2 === 1);
-    });
-  }
+function montrerDegres(scene: Scene) {
+  const d = G.degres(scene.pos.length, scene.aretes);
+  d.forEach((x, i) => {
+    scene.badge(i, String(x));
+    scene.classeSommet(i, 'impair', x % 2 === 1);
+  });
 }
 
 /* 1. Arbre couvrant */
-class PartieArbre extends Partie {
+class PartieArbre extends Partie<Niveau, Scene> {
   construites = new Set<number>();
   monter() {
     const n = this.niveau as Extract<Niveau, { type: 'arbre' }>;
@@ -119,7 +58,7 @@ class PartieArbre extends Partie {
 }
 
 /* 2–3. Chemin eulérien */
-class PartieEuler extends Partie {
+class PartieEuler extends Partie<Niveau, Scene> {
   chemin: number[] = [];
   utilisees = new Set<number>();
   bouton!: HTMLButtonElement;
@@ -153,7 +92,7 @@ class PartieEuler extends Partie {
   private declarerImpossible() {
     if (this.fini) return;
     if (!this.n.possible) {
-      this.montrerDegres();
+      montrerDegres(this.scene);
       this.gagner();
     } else {
       this.compter();
@@ -176,7 +115,7 @@ class PartieEuler extends Partie {
     if (reste === 0) {
       this.hote.statut('Toutes les arêtes sont parcourues.', 'succes');
       if (this.n.possible) {
-        this.montrerDegres();
+        montrerDegres(this.scene);
         this.gagner();
       }
       return;
@@ -203,7 +142,7 @@ class PartieEuler extends Partie {
 
 /* 4. Coloration */
 const TEINTES = ['teinte-0', 'teinte-1', 'teinte-2', 'teinte-3'];
-class PartieColoration extends Partie {
+class PartieColoration extends Partie<Niveau, Scene> {
   couleurs: number[] = [];
   choisie = 0;
   get n() {
@@ -255,7 +194,7 @@ class PartieColoration extends Partie {
 }
 
 /* 5. Biparti */
-class PartieBiparti extends Partie {
+class PartieBiparti extends Partie<Niveau, Scene> {
   camps: number[] = [];
   get n() {
     return this.niveau as Extract<Niveau, { type: 'biparti' }>;
@@ -300,7 +239,7 @@ class PartieBiparti extends Partie {
 }
 
 /* 6. Plus court chemin */
-class PartieDijkstra extends Partie {
+class PartieDijkstra extends Partie<Niveau, Scene> {
   chemin: number[] = [];
   aretesChemin: number[] = [];
   get n() {
@@ -400,7 +339,7 @@ class PartieDijkstra extends Partie {
 }
 
 /* 7. Chemin hamiltonien */
-class PartieHamilton extends Partie {
+class PartieHamilton extends Partie<Niveau, Scene> {
   chemin: number[] = [];
   aretesChemin: number[] = [];
   monter() {
@@ -479,7 +418,7 @@ class PartieHamilton extends Partie {
 }
 
 /* 8. Isomorphisme */
-class PartieIsomorphisme extends Partie {
+class PartieIsomorphisme extends Partie<Niveau, Scene> {
   place: number[] = [];
   saisi = -1;
   get n() {
@@ -548,18 +487,12 @@ class PartieIsomorphisme extends Partie {
   }
 }
 
-export function creerPartie(n: Niveau, hote: Hote): Partie {
-  const C = {
-    arbre: PartieArbre,
-    euler: PartieEuler,
-    coloration: PartieColoration,
-    biparti: PartieBiparti,
-    dijkstra: PartieDijkstra,
-    hamilton: PartieHamilton,
-    isomorphisme: PartieIsomorphisme,
-  }[n.type];
-  const p = new C(n, hote);
-  p.monter();
-  p.brancher();
-  return p;
-}
+export const PARTIES_GRAPHES: Record<string, ConstructeurPartie> = {
+  arbre: PartieArbre,
+  euler: PartieEuler,
+  coloration: PartieColoration,
+  biparti: PartieBiparti,
+  dijkstra: PartieDijkstra,
+  hamilton: PartieHamilton,
+  isomorphisme: PartieIsomorphisme,
+};

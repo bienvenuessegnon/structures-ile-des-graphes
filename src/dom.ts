@@ -40,6 +40,11 @@ const ICONES: Record<string, string> = {
   deplacer: '<path d="M12 3v18M3 12h18"/><path d="M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/>',
   gomme: '<path d="M20 20H9L4 15a2 2 0 0 1 0-2.8l8.2-8.2a2 2 0 0 1 2.8 0L20 9a2 2 0 0 1 0 2.8L12 20"/>',
   vider: '<path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  'ile-graphes': '<circle cx="6" cy="7" r="2.4"/><circle cx="18" cy="7" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8.4 7h7.2M7.2 9.1l3.6 6.8M16.8 9.1l-3.6 6.8"/>',
+  'ile-algebre': '<path d="M12 4.5l7 12.5H5z"/><path d="M20.5 8.5a9 9 0 0 0-5-5.2"/><path d="M15.2 1.8l.3 1.5-1.5.4"/>',
+  'ile-topologie': '<path d="M3 17l4.5-8 4.5 8 4.5-8L21 17"/><circle cx="7.5" cy="9" r="1.6"/><circle cx="16.5" cy="9" r="1.6"/>',
+  'ile-tribus': '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M10 3.5v17M10 12h10.5"/>',
+  'ile-vectoriel': '<path d="M4 20l7-3 9-13-7 3z" opacity=".35"/><path d="M4 20l7-3M4 20l9-13"/><path d="M8.6 16.1l2.4.9-1.4 2.1M10.9 7.3l2.1-.3-.2 2.4"/>',
   bac: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><circle cx="15.5" cy="15" r="1.6"/><path d="M9.8 10.2l4.4 3.6"/>',
 };
 
